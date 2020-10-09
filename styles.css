@@ -23,5 +23,6 @@ main > h1 {
 .container {
   background-color: cadetblue;
   border-top: darkblue;
-  border-radius: 5%;
+  border-radius: 15%;
+  border-width: 3px;
 }
