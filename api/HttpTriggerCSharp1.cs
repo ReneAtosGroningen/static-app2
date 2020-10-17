@@ -21,20 +21,39 @@ namespace Company.Function
         //Anything else will throw an exception
 
 
-        [FunctionName("NewGame")]
+        [FunctionName("PlayGame")]
         public static async Task<IActionResult> Run(
             [HttpTrigger(AuthorizationLevel.Anonymous, "get", "post", Route = null)] HttpRequest req,
             ILogger log)
         {
-            log.LogInformation("C# HTTP trigger function processed a request for new game.");
+            log.LogInformation("C# HTTP trigger function processed a request");
 
-            string newWord = GetNewWord();
-            string uncoded = "0::" + newWord;
-            string code = await EncryptString(uncoded, hashKey);
+
+            string requestBody = await new StreamReader(req.Body).ReadToEndAsync();
+            dynamic data = JsonConvert.DeserializeObject(requestBody);
+
+            GalgjePoging invoerBericht = new GalgjePoging();
+            string inputLetter = data?.letter;
+            string inputCode = data?.code;
+
             GalgjeAntwoord antwoord = new GalgjeAntwoord();
-            antwoord.woord=new string('_',newWord.Length);
-            antwoord.code = code;
-            antwoord.uncoded=uncoded;
+
+            if (string.IsNullOrWhiteSpace(inputLetter) &&
+                string.IsNullOrWhiteSpace(inputCode))
+            {
+                // start new game
+                string newWord = GetNewWord();
+                string uncoded = "0::" + newWord;
+                string code = await EncryptString(uncoded, hashKey);
+                
+                antwoord.woord=new string('_',newWord.Length);
+                antwoord.code = code;
+                antwoord.uncoded=uncoded;
+            }
+            else
+            {
+                
+            }
             return new OkObjectResult(antwoord);
         }
 

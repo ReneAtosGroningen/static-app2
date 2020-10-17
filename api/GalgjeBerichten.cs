@@ -6,3 +6,9 @@
         public string uncoded {get;set;}
 
     }
+
+    public class GalgjePoging
+    {
+        public string letter {get;set;}
+        public string code {get;set;}
+    }
