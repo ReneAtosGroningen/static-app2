@@ -21,9 +21,22 @@ main > h1 {
 }
 
 .container {
-  background-color: cadetblue;
+  background-color: lightblue;
   border-color: darkblue;
   border-radius: 15px;
-  border-width: 5px;
+  border-width: 4px;
   border-style: solid;
+  text-align: center;
+  vertical-align: text-bottom;
+}
+
+.container_inv {
+  background-color: lightblue;
+  border-color: darkblue;
+  border-radius: 15px;
+  border-width: 4px;
+  border-style: solid;
+  text-align: center;
+  vertical-align: text-bottom;
+  
 }

@@ -1,0 +1,4 @@
+function SendCharacter() {
+
+    alert("Hi");
+}
