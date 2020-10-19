@@ -50,47 +50,43 @@ namespace Company.Function
                 antwoord.uncoded=uncoded;
             }
             else
-            {
-                antwoord.code = "inputCode=" + inputCode + " letter=" + inputLetter;
-                antwoord.score=0;
-                antwoord.gespeeldeLetters="";
-                
-                // var decodedInput = DecodeHash(inputCode);
-                // if (decodedInput == "")
-                // {
-                //     return new RedirectResult("/valsspel.html");   
-                // }
-                // else
-                // {
-                //     string[] parts = decodedInput.Split(':', StringSplitOptions.None);
-                //     int aantalFout = int.Parse(parts[0]);
-                //     string letters = parts[1] + inputLetter.Substring(0,1);
-                //     string word = parts[2];
-                //     string maskedWord = "";
-                //     foreach (char c in word)
-                //     {
-                //         if (letters.Contains(c))
-                //         {
-                //             maskedWord += c;
-                //         }
-                //         else
-                //         {
-                //             maskedWord += "_";
-                //         }
-                //     }
-                //     if (!word.Contains(inputLetter.Substring(0, 1)))
-                //     {
-                //         aantalFout++;
-                //     }
-                //     string uncoded = $"{aantalFout}:{letters}:{word}";
-                //     string code = await EncryptString(uncoded, hashKey);
+            {         
+                var decodedInput = DecodeHash(inputCode);
+                if (decodedInput == "")
+                {
+                    return new RedirectResult("/valsspel.html");
+                }
+                else
+                {
+                    string[] parts = decodedInput.Split(':', StringSplitOptions.None);
+                    int aantalFout = int.Parse(parts[0]);
+                    string letters = parts[1] + inputLetter.Substring(0, 1);
+                    string word = parts[2];
+                    string maskedWord = "";
+                    foreach (char c in word)
+                    {
+                        if (letters.Contains(c))
+                        {
+                            maskedWord += c;
+                        }
+                        else
+                        {
+                            maskedWord += "_";
+                        }
+                    }
+                    if (!word.Contains(inputLetter.Substring(0, 1)))
+                    {
+                        aantalFout++;
+                    }
+                    string uncoded = $"{aantalFout}:{letters}:{word}";
+                    string code = await EncryptString(uncoded, hashKey);
 
-                //     antwoord.score=aantalFout;
-                //     antwoord.gespeeldeLetters=letters;
-                //     antwoord.woord=maskedWord;
-                //     antwoord.code = code;
-                //     antwoord.uncoded=uncoded;           
-                // }
+                    antwoord.score = aantalFout;
+                    antwoord.gespeeldeLetters = letters;
+                    antwoord.woord = maskedWord;
+                    antwoord.code = code;
+                    antwoord.uncoded = uncoded;
+                }
             }
             return new OkObjectResult(antwoord);
         }
