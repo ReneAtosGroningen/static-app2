@@ -28,9 +28,11 @@ namespace Company.Function
         {
             log.LogInformation("C# HTTP trigger function processed a request");
 
-            GalgjePoging invoerBericht = new GalgjePoging();
+            
             string inputLetter = req.Query["letter"]; 
             string inputCode = req.Query["code"]; 
+            inputLetter = inputLetter ?? "";
+            inputCode = inputCode ?? "";
 
             GalgjeAntwoord antwoord = new GalgjeAntwoord();
 
@@ -50,7 +52,9 @@ namespace Company.Function
             else
             {
                 antwoord.code = "inputCode=" + inputCode + " letter=" + inputLetter;
-
+                antwoord.score=0;
+                antwoord.gespeeldeLetters="";
+                
                 // var decodedInput = DecodeHash(inputCode);
                 // if (decodedInput == "")
                 // {
