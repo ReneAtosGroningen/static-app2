@@ -5,26 +5,42 @@
 
 // API url
 gameUrl = "/api/playgame";
-gameUrlComplete = "https://red-field-03d09a603.azurestaticapps.net/api/playgame";
+
 
 function SendCharacter() {
 
     alert("Hi");
 }
 
+//Functie voor de knop "Nieuw Spel"
 function StartNewGame() {  
     
     $.ajax({
         method: "GET",
-        url: "https://red-field-03d09a603.azurestaticapps.net/api/playgame",
+        url: gameUrl,
         contentType: "application/json",
         dataType: 'json'
     }).done(function (res) {
-        alert(res);
+        ProcessApiResponse(res);
     }).fail(function (jqXHR, textStatus, errorThrown) {
-        alert("AJAX call failed: " + textStatus + ", " + errorThrown);
+        alert("API call failed: " + textStatus + ", " + errorThrown);
     });
-
 
 }
 
+// Functie om de API-reply terug in het scherm te zetten
+function ProcessApiResponse(response) {
+    $("#code").text(response.code);
+    $("#woord").text(MakeWider(response.woord));
+    $("#letter").val("");
+}
+
+function MakeWider(inputString) {
+    wideText="";
+    for (var x = 0; x < inputString.length; x++)
+    {
+        var c = inputString.charAt(x);
+        wideText = wideText + c + " ";
+    }
+    return wideText;
+}

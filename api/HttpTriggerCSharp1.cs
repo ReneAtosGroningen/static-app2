@@ -28,7 +28,6 @@ namespace Company.Function
         {
             log.LogInformation("C# HTTP trigger function processed a request");
 
-
             string requestBody = await new StreamReader(req.Body).ReadToEndAsync();
             dynamic data = JsonConvert.DeserializeObject(requestBody);
 
@@ -45,7 +44,8 @@ namespace Company.Function
                 string newWord = GetNewWord();
                 string uncoded = "0::" + newWord;
                 string code = await EncryptString(uncoded, hashKey);
-                
+                antwoord.score=0;
+                antwoord.gespeeldeLetters="";
                 antwoord.woord=new string('_',newWord.Length);
                 antwoord.code = code;
                 antwoord.uncoded=uncoded;
