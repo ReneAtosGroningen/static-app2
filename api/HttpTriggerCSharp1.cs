@@ -28,12 +28,9 @@ namespace Company.Function
         {
             log.LogInformation("C# HTTP trigger function processed a request");
 
-            string requestBody = await new StreamReader(req.Body).ReadToEndAsync();
-            dynamic data = JsonConvert.DeserializeObject(requestBody);
-
             GalgjePoging invoerBericht = new GalgjePoging();
-            string inputLetter = data?.letter;
-            string inputCode = data?.code;
+            string inputLetter = req.Query["letter"]; 
+            string inputCode = req.Query["code"]; 
 
             GalgjeAntwoord antwoord = new GalgjeAntwoord();
 
