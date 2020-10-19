@@ -8,10 +8,11 @@ gameUrl = "/api/playgame";
 
 
 function SendCharacter() {
-    var letterToSend = "a";
-    var secretCode = "ksddfhkjdfh";
+    var letterToSend = $("#letter").val();
+    var secretCode = $("#code").text();
+    
     $.ajax({
-        method: "GET",
+        method: "POST",
         url: gameUrl,
         data: { "letter": letterToSend,
                 "code" : secretCode },

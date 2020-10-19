@@ -52,9 +52,103 @@ namespace Company.Function
             }
             else
             {
-                return new RedirectResult("/valsspel.html");   
+                var decodedInput = DecodeHash(inputCode);
+                if (decodedInput == "")
+                {
+                    return new RedirectResult("/valsspel.html");   
+                }
+                else
+                {
+                    string[] parts = decodedInput.Split(':', StringSplitOptions.None);
+                    int aantalFout = int.Parse(parts[0]);
+                    string letters = parts[1] + inputLetter.Substring(0,1);
+                    string word = parts[2];
+                    string maskedWord = "";
+                    foreach (char c in word)
+                    {
+                        if (letters.Contains(c))
+                        {
+                            maskedWord += c;
+                        }
+                        else
+                        {
+                            maskedWord += "_";
+                        }
+                    }
+                    if (!word.Contains(inputLetter.Substring(0, 1)))
+                    {
+                        aantalFout++;
+                    }
+                    string uncoded = $"{aantalFout}:{letters}:{word}";
+                    string code = await EncryptString(uncoded, hashKey);
+
+                    antwoord.score=aantalFout;
+                    antwoord.gespeeldeLetters=letters;
+                    antwoord.woord=maskedWord;
+                    antwoord.code = code;
+                    antwoord.uncoded=uncoded;           
+                }
             }
             return new OkObjectResult(antwoord);
+        }
+
+        private static string DecodeHash(string hash)
+        {           
+            try
+            {
+                return DecryptString(hash, hashKey);                
+            }
+            catch
+            {              
+                return "";
+            }         
+        }
+
+        private static string DecryptString(string cipherText, string keyString)
+        {
+            // put back removed chars
+            string s = cipherText;
+            s = s.Replace("-", "+"); // 62nd char of encoding
+            s = s.Replace("_", "/"); // 63rd char of encoding
+
+            switch (s.Length % 4) // Pad with trailing '='s
+            {
+                case 0: break; // No pad chars in this case
+                case 2: s += "=="; break; // Two pad chars
+                case 3: s += "="; break; // One pad char
+                default: throw new Exception("Illegal base64url string!");
+            }
+
+            var fullCipher = Convert.FromBase64String(s);
+
+            var iv = new byte[16];
+            //var cipher = new byte[16];
+            var cipher = new byte[fullCipher.Length - iv.Length]; //changes here
+
+
+            Buffer.BlockCopy(fullCipher, 0, iv, 0, iv.Length);
+            //Buffer.BlockCopy(fullCipher, iv.Length, cipher, 0, cipher.Length);
+            Buffer.BlockCopy(fullCipher, iv.Length, cipher, 0, fullCipher.Length - iv.Length); // changes here
+            var key = Encoding.UTF8.GetBytes(keyString);
+
+            using (var aesAlg = Aes.Create())
+            {
+                using (var decryptor = aesAlg.CreateDecryptor(key, iv))
+                {
+                    string result;
+                    using (var msDecrypt = new MemoryStream(cipher))
+                    {
+                        using (var csDecrypt = new CryptoStream(msDecrypt, decryptor, CryptoStreamMode.Read))
+                        {
+                            using (var srDecrypt = new StreamReader(csDecrypt))
+                            {
+                                result = srDecrypt.ReadToEnd();
+                            }
+                        }
+                    }
+                    return result;
+                }
+            }
         }
 
 
