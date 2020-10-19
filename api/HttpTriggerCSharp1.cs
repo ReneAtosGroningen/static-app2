@@ -52,7 +52,7 @@ namespace Company.Function
             }
             else
             {
-                
+                return new RedirectResult("/valsspel.html");   
             }
             return new OkObjectResult(antwoord);
         }
