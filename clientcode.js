@@ -17,7 +17,7 @@ function SendCharacter() {
             data: { "letter": letterToSend.toLowerCase(),
                     "code" : secretCode }
             ,contentType: "application/json"
-            ,dataType: 'json'
+            ,dataType: "json"
         }).done(function (res) {
             ProcessApiResponse(res);
         }).fail(function (jqXHR, textStatus, errorThrown) {
@@ -54,16 +54,16 @@ function StartNewGame() {
         method: "GET",
         url: gameUrl,
         contentType: "application/json",
-        dataType: 'json'
+        dataType: "json"
     }).done(function (res) {
         ProcessApiResponse(res);
     }).fail(function (jqXHR, textStatus, errorThrown) {
         alert("API call failed: " + textStatus + ", " + errorThrown);
     }).always(function (res) {
         ProcessScore(res);
+        $("#verzendKnop").show();
     });
-    $("#verzendKnop").show();
-}
+    
 
 // Functie om de API-reply terug in het scherm te zetten
 function ProcessApiResponse(apiResponse) {
