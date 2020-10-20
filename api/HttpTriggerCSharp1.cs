@@ -29,17 +29,16 @@ namespace Company.Function
             log.LogInformation("C# HTTP trigger function processed a request");
 
             
-            string inputLetter = req.Query["letter"]; 
-            string inputCode = req.Query["code"]; 
-
+            string inputLetter ="";
+            string inputCode = "";
+            //Te verwachten requestBody: letter=a&code=lekcCMX-j9gpJ6XBm6G7pZ4F9oSq3vI2E8dmNKMrf0Y
             string requestBody = await new StreamReader(req.Body).ReadToEndAsync();
-            //letter=a&code=lekcCMX-j9gpJ6XBm6G7pZ4F9oSq3vI2E8dmNKMrf0Y
+            if (!string.IsNullOrWhiteSpace(requestBody)) {
+                string[] payload = requestBody.Split('&', StringSplitOptions.None);
 
-
-            // inputLetter = inputLetter ?? data?.letter;
-            // inputCode = inputCode ?? data?.code;
-
-        
+                inputLetter = payload[0].Split('=', StringSplitOptions.None)[1];
+                inputCode = payload[1].Split('=', StringSplitOptions.None)[1];
+            }
 
             GalgjeAntwoord antwoord = new GalgjeAntwoord();
 
