@@ -12,7 +12,7 @@ function SendCharacter() {
     var secretCode = $("#code").text();
     
     $.ajax({
-        method: "GET",
+        method: "POST",
         url: gameUrl,
         data: { "letter": letterToSend,
                 "code" : secretCode }
