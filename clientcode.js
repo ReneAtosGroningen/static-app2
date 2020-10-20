@@ -80,6 +80,8 @@ function ProcessApiResponse(apiResponse) {
     $("#gespeeld").text(MakeWider(apiResponse.gespeeldeLetters));
     $("#letter").val("");
     $("#score").text(10 - apiResponse.score);
+    $("#hangManImage").attr("src", `img/hm${apiResponse.score}.png` );
+
     $("#letter").val("").focus();
 }
 
