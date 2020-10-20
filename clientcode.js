@@ -63,7 +63,7 @@ function StartNewGame() {
         ProcessScore(res);
         $("#verzendKnop").show();
     });
-    
+}
 
 // Functie om de API-reply terug in het scherm te zetten
 function ProcessApiResponse(apiResponse) {
