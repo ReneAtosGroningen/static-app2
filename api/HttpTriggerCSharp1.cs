@@ -89,6 +89,9 @@ namespace Company.Function
                 // }
                 antwoord.code = "haha";
                 antwoord.score = 0;
+                antwoord.gespeeldeLetters = "";
+                antwoord.uncoded="";
+                antwoord.woord = "";
             }
             return new OkObjectResult(antwoord);
         }
