@@ -42,16 +42,16 @@ namespace Company.Function
                 // start new game
                 string newWord = GetNewWord();
                 string uncoded = "0::" + newWord;
-                //string code = await EncryptString(uncoded, hashKey);
+                string code = EncryptString(uncoded, hashKey);
                 antwoord.score=0;
                 antwoord.gespeeldeLetters="";
                 antwoord.woord=new string('_',newWord.Length);
-                antwoord.code = uncoded;
+                antwoord.code = code;
                 antwoord.uncoded=uncoded;
             }
             else
             {         
-                string decodedInput = inputCode; // DecodeHash(inputCode);
+                string decodedInput = "0::uilskuiken"; // DecodeHash(inputCode);
                 if (decodedInput == "")
                 {
                     return new RedirectResult("/valsspel.html");
@@ -78,8 +78,8 @@ namespace Company.Function
                     {
                         aantalFout++;
                     }
-                    string uncoded = $"{aantalFout}:{letters}:{word}";
-                    //string code = await EncryptString(uncoded, hashKey);
+                    string uncoded = aantalFout.ToString() + ":" + letters + ":" + word;
+                    string code = EncryptString(uncoded, hashKey);
 
                     antwoord.score = aantalFout;
                     antwoord.gespeeldeLetters = letters;
@@ -197,7 +197,7 @@ namespace Company.Function
             return (int)(value % (ulong)count);
         }
 
-        private static async Task<string> EncryptString(string text, string keyString)
+        private static string EncryptString(string text, string keyString)
         {
             var key = Encoding.UTF8.GetBytes(keyString);
             using (var aesAlg = Aes.Create())
