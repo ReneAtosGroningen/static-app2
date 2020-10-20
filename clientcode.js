@@ -4,7 +4,7 @@
 //--------------------------------------------------
 
 // API url
-gameUrl = "/api/playgame";
+gameUrl =  "/api/playgame";
 
 
 function SendCharacter() {
@@ -15,9 +15,9 @@ function SendCharacter() {
         method: "GET",
         url: gameUrl,
         data: { "letter": letterToSend,
-                "code" : secretCode },
-        contentType: "application/json",
-        dataType: 'json'
+                "code" : secretCode }
+        //,contentType: "application/json"
+        //,dataType: 'json'
     }).done(function (res) {
         ProcessApiResponse(res);
     }).fail(function (jqXHR, textStatus, errorThrown) {
