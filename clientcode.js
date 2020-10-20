@@ -6,6 +6,11 @@
 // API url
 gameUrl =  "/api/playgame";
 
+// some defaults
+$(document).ready(function(){
+    $("#verzendKnop").hide();
+    $("#letterOption").hide();
+  });
 
 function SendCharacter() {
     var letterToSend = $("#letter").val();
@@ -50,6 +55,9 @@ function IsValidUserInput(letterToSend) {
 
 //Functie voor de knop "Nieuw Spel"
 function StartNewGame() {  
+    $("#verzendKnop").show();
+    $("#letterOption").show();
+
     $.ajax({
         method: "GET",
         url: gameUrl,
@@ -61,7 +69,7 @@ function StartNewGame() {
         alert("API call failed: " + textStatus + ", " + errorThrown);
     }).always(function (res) {
         ProcessScore(res);
-        $("#verzendKnop").show();
+        
     });
 }
 
@@ -72,6 +80,7 @@ function ProcessApiResponse(apiResponse) {
     $("#gespeeld").text(MakeWider(apiResponse.gespeeldeLetters));
     $("#letter").val("");
     $("#score").text(10 - apiResponse.score);
+    $("#letter").val("").focus();
 }
 
 function ProcessScore(apiResponse) {
