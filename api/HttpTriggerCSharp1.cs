@@ -32,7 +32,7 @@ namespace Company.Function
             string inputLetter = req.Query["letter"]; 
             string inputCode = req.Query["code"]; 
 
-            // string requestBody = await new StreamReader(req.Body).ReadToEndAsync();
+            string requestBody = await new StreamReader(req.Body).ReadToEndAsync();
             // dynamic data = JsonConvert.DeserializeObject(requestBody);
             // inputLetter = inputLetter ?? data?.letter;
             // inputCode = inputCode ?? data?.code;
@@ -52,7 +52,7 @@ namespace Company.Function
                 antwoord.gespeeldeLetters="";
                 antwoord.woord=new string('_',newWord.Length);
                 antwoord.code = code;
-                antwoord.uncoded=uncoded;
+                antwoord.uncoded=requestBody;
             }
             else
             {         
