@@ -53,7 +53,6 @@ namespace Company.Function
                 antwoord.gespeeldeLetters="";
                 antwoord.woord=new string('_',newWord.Length);
                 antwoord.code = code;
-                antwoord.uncoded=inputCode;
             }
             else
             {         
@@ -91,7 +90,6 @@ namespace Company.Function
                     antwoord.gespeeldeLetters = letters;
                     antwoord.woord = maskedWord;
                     antwoord.code = code;
-                    antwoord.uncoded = uncoded;
                 }
                 
             }

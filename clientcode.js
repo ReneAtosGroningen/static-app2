@@ -62,6 +62,7 @@ function StartNewGame() {
     }).always(function (res) {
         ProcessScore(res);
     });
+    $("#verzendKnop").show();
 }
 
 // Functie om de API-reply terug in het scherm te zetten
@@ -70,7 +71,7 @@ function ProcessApiResponse(apiResponse) {
     $("#woord").text(MakeWider(apiResponse.woord));
     $("#gespeeld").text(MakeWider(apiResponse.gespeeldeLetters));
     $("#letter").val("");
-    $("#score").text(apiResponse.score);
+    $("#score").text(10 - apiResponse.score);
 }
 
 function ProcessScore(apiResponse) {
