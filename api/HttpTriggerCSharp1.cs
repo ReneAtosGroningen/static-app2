@@ -31,8 +31,13 @@ namespace Company.Function
             
             string inputLetter = req.Query["letter"]; 
             string inputCode = req.Query["code"]; 
-            inputLetter = inputLetter ?? "";
-            inputCode = inputCode ?? "";
+
+            string requestBody = await new StreamReader(req.Body).ReadToEndAsync();
+            dynamic data = JsonConvert.DeserializeObject(requestBody);
+            inputLetter = inputLetter ?? data?.letter;
+            inputCode = inputCode ?? data?.code;
+
+        
 
             GalgjeAntwoord antwoord = new GalgjeAntwoord();
 
@@ -78,13 +83,13 @@ namespace Company.Function
                     {
                         aantalFout++;
                     }
-                    string uncoded = aantalFout.ToString() + ":" + letters + ":" + word;
+                    string uncoded = $"{aantalFout}:{letters}:{word}";  
                     string code = EncryptString(uncoded, hashKey);
 
                     antwoord.score = aantalFout;
                     antwoord.gespeeldeLetters = letters;
                     antwoord.woord = maskedWord;
-                    antwoord.code = uncoded;
+                    antwoord.code = code;
                     antwoord.uncoded = uncoded;
                 }
                 

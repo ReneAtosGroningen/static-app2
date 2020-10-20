@@ -10,21 +10,42 @@ gameUrl =  "/api/playgame";
 function SendCharacter() {
     var letterToSend = $("#letter").val();
     var secretCode = $("#code").text();
-    
-    $.ajax({
-        method: "POST",
-        url: gameUrl,
-        data: { "letter": letterToSend,
-                "code" : secretCode }
-        ,contentType: "application/json"
-        ,dataType: 'json'
-    }).done(function (res) {
-        ProcessApiResponse(res);
-    }).fail(function (jqXHR, textStatus, errorThrown) {
-        alert("API call failed: " + textStatus + ", " + errorThrown);
-    }).always(function (res) {
-        ProcessScore(res);
-    });
+    if (IsValidUserInput(letterToSend)) {
+        $.ajax({
+            method: "POST",
+            url: gameUrl,
+            data: { "letter": letterToSend.toLowerCase(),
+                    "code" : secretCode }
+            ,contentType: "application/json"
+            ,dataType: 'json'
+        }).done(function (res) {
+            ProcessApiResponse(res);
+        }).fail(function (jqXHR, textStatus, errorThrown) {
+            alert("API call failed: " + textStatus + ", " + errorThrown);
+        }).always(function (res) {
+            ProcessScore(res);
+        });
+    }
+}
+
+function IsValidUserInput(letterToSend) {
+    var IsInputValid = true;
+    if (letterToSend == "" || letterToSend == " ") {
+        alert("Geef een letter om te spelen.")
+        IsInputValid = false;
+        $("#letter").val("").focus();
+    }
+    else if (!isNaN(letterToSend)) {
+        alert("Geef een letter om te spelen, geen getal.")
+        IsInputValid = false;
+        $("#letter").val("").focus();
+    }
+    else if ("qwertyuiopasdfghjklzxcvbnm".indexOf(letterToSend.toLowerCase()) == -1) {
+        alert("Geef een letter om te spelen, geen leestekens.")
+        IsInputValid = false;
+        $("#letter").val("").focus();
+    }
+    return IsInputValid;
 }
 
 //Functie voor de knop "Nieuw Spel"
