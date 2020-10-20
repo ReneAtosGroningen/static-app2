@@ -51,47 +51,43 @@ namespace Company.Function
             }
             else
             {         
-                //string decodedInput = "0::uilskuiken"; // DecodeHash(inputCode);
-                // if (decodedInput == "")
-                // {
-                //     return new RedirectResult("/valsspel.html");
-                // }
-                // else
-                // {
-                //     string[] parts = decodedInput.Split(':', StringSplitOptions.None);
-                //     int aantalFout = int.Parse(parts[0]);
-                //     string letters = parts[1] + inputLetter.Substring(0, 1);
-                //     string word = parts[2];
-                //     string maskedWord = "";
-                //     foreach (char c in word)
-                //     {
-                //         if (letters.Contains(c))
-                //         {
-                //             maskedWord += c;
-                //         }
-                //         else
-                //         {
-                //             maskedWord += "_";
-                //         }
-                //     }
-                //     if (!word.Contains(inputLetter.Substring(0, 1)))
-                //     {
-                //         aantalFout++;
-                //     }
-                //     string uncoded = aantalFout.ToString() + ":" + letters + ":" + word;
-                //     string code = EncryptString(uncoded, hashKey);
+                string decodedInput = DecodeHash(inputCode);
+                if (decodedInput == "")
+                {
+                    return new RedirectResult("/valsspel.html");
+                }
+                else
+                {
+                    string[] parts = decodedInput.Split(':', StringSplitOptions.None);
+                    int aantalFout = int.Parse(parts[0]);
+                    string letters = parts[1] + inputLetter.Substring(0, 1);
+                    string word = parts[2];
+                    string maskedWord = "";
+                    foreach (char c in word)
+                    {
+                        if (letters.Contains(c))
+                        {
+                            maskedWord += c;
+                        }
+                        else
+                        {
+                            maskedWord += "_";
+                        }
+                    }
+                    if (!word.Contains(inputLetter.Substring(0, 1)))
+                    {
+                        aantalFout++;
+                    }
+                    string uncoded = aantalFout.ToString() + ":" + letters + ":" + word;
+                    string code = EncryptString(uncoded, hashKey);
 
-                //     antwoord.score = aantalFout;
-                //     antwoord.gespeeldeLetters = letters;
-                //     antwoord.woord = maskedWord;
-                //     antwoord.code = uncoded;
-                //     antwoord.uncoded = uncoded;
-                // }
-                antwoord.code = "haha";
-                antwoord.score = 0;
-                antwoord.gespeeldeLetters = "";
-                antwoord.uncoded="";
-                antwoord.woord = "";
+                    antwoord.score = aantalFout;
+                    antwoord.gespeeldeLetters = letters;
+                    antwoord.woord = maskedWord;
+                    antwoord.code = uncoded;
+                    antwoord.uncoded = uncoded;
+                }
+                
             }
             return new OkObjectResult(antwoord);
         }

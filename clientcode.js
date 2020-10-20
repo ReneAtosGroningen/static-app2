@@ -16,8 +16,8 @@ function SendCharacter() {
         url: gameUrl,
         data: { "letter": letterToSend,
                 "code" : secretCode }
-        //,contentType: "application/json"
-        //,dataType: 'json'
+        ,contentType: "application/json"
+        ,dataType: 'json'
     }).done(function (res) {
         ProcessApiResponse(res);
     }).fail(function (jqXHR, textStatus, errorThrown) {
