@@ -1,3 +1,3 @@
 # Static App
 
-This repo is used as a starter for a _very basic_ HTML web application using no front-end frameworks.
+This repo is used for a simple game to demonstrate the posibilities of a static web application, with the use of functions to offer dynamic capabilities
